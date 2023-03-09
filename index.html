@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zakeke Product Preview</title>
+</head>
+
+<body>
+  <iframe id="zakeke-frame" src="https://portal.zakeke.com/Configurator/index.html" allowfullscreen width="1366"
+    height="768"></iframe>
+</body>
+<script>
+  const iframe = document.querySelector("#zakeke-frame");
+
+  function zakekeLoad() {
+    iframe?.contentWindow?.postMessage(
+      {
+        type: "load",
+        parameters: {
+          name: "Ford F450",
+          token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU2VsbGVyIiwiUGVybUJpdHMiOiIwMTAwMTExMDAxMTAwMTExMTExMTAxIiwidW5pcXVlX25hbWUiOiJmYWhhZC5oYXNzYW5Ac2hhZWQuYWkiLCJVc2VySUQiOiIxMDczMTIiLCJVc2VyTmFtZSI6ImZhaGFkLmhhc3NhbkBzaGFlZC5haSIsInNhbGVzQ2hhbm5lbElEIjoiMSIsImVtYWlsIjoiZmFoYWQuaGFzc2FuQHNoYWVkLmFpIiwiVXNlclR5cGVJRCI6IjMiLCJJc3N1ZURhdGUiOiIwOS0wMy0yMDIzIDEzLTM5LTM4WiIsIlVzZXJWZXJzaW9uIjoiMjAyMzAzMDkxMzI3MzgiLCJjbGllbnRJRCI6IjExODQ0MyIsIm5iZiI6MTY3ODM2OTE3OCwiZXhwIjoxNjc4NDU1NTc4LCJpYXQiOjE2NzgzNjkxNzgsImlzcyI6Ind3dy56YWtla2UuY29tIiwiYXVkIjoiaHR0cHM6Ly93d3cuemFrZWtlLmNvbSJ9.82II8WGvN4-8By-bFsV2Fp8hA94sHd_xK3d3dNv-WCA",
+          ecommerce: "api",
+          currency: "USD",
+          culture: "us",
+          modelCode: "1343242",
+          qty: 1,
+          // attributes: [
+          //   [
+          //     {
+          //       id: "34523",
+          //     },
+
+          //     {
+          //       id: "537564567",
+          //     },
+          //   ],
+          // ],
+        },
+      },
+      "*"
+    );
+  }
+
+  const zakekeLoadInterval = setInterval(zakekeLoad, 500);
+
+  window.addEventListener(
+    "message",
+    (event) => {
+      if (event.origin !== new URL(iframe.src).origin) {
+        return;
+      }
+
+      if (event.data.zakekeType === "loaded") {
+        clearInterval(zakekeLoadInterval);
+      }
+    },
+    false
+  );
+</script>
+
+</html>
